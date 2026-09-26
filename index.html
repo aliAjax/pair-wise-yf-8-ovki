@@ -26,6 +26,10 @@
             <span>片段数</span>
             <strong id="segmentCount">0</strong>
           </div>
+          <div>
+            <span>场次紧张片段</span>
+            <strong id="tightCount">0</strong>
+          </div>
         </div>
       </header>
 
@@ -85,6 +89,14 @@
               </select>
             </label>
             <label>
+              安全上限（场）
+              <input id="limitInput" required type="number" min="1" value="30" />
+            </label>
+            <label>
+              已放映场次
+              <input id="usedInput" required type="number" min="0" value="0" />
+            </label>
+            <label>
               缩略图
               <input id="thumbInput" type="file" accept="image/*" />
             </label>
@@ -109,7 +121,96 @@
           <div id="warningList" class="warning-list"></div>
         </aside>
       </section>
+
+      <section class="ledger">
+        <div class="section-head">
+          <h2>洗印件使用台账</h2>
+          <span>预订占用剩余场次，实际放映后转为已映</span>
+        </div>
+        <div class="ledger-grid">
+          <aside class="panel">
+            <h3>新建预订</h3>
+            <form id="bookingForm" class="segment-form">
+              <label>
+                场次名称
+                <input id="bookingTitleInput" required placeholder="例：周五试映场" />
+              </label>
+              <label>
+                放映日期（可选）
+                <input id="bookingDateInput" type="date" />
+              </label>
+              <p class="hint">一笔预订为清单内每个片段占用 1 场，剩余不足会整笔挡下。</p>
+              <p id="bookingError" class="booking-error" hidden></p>
+              <button class="primary" type="submit">预订一场放映</button>
+            </form>
+          </aside>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>待放映预订</h3>
+              <span>取消释放占用，放映完成后转已映</span>
+            </div>
+            <div id="bookingList" class="booking-list"></div>
+            <h3 class="subhead">已完成放映</h3>
+            <div id="historyList" class="booking-list"></div>
+          </div>
+
+          <aside class="panel">
+            <h3>各片段剩余场次</h3>
+            <div id="slotOverview" class="slot-overview"></div>
+            <h3 class="subhead">替换留档</h3>
+            <div id="archiveList" class="booking-list"></div>
+          </aside>
+        </div>
+      </section>
     </main>
+
+    <dialog id="replaceDialog" class="replace-dialog">
+      <form id="replaceForm" method="dialog" class="segment-form">
+        <h3>替换片段</h3>
+        <p id="replaceSummary" class="hint"></p>
+        <label>
+          新片段编号
+          <input id="replaceCodeInput" required placeholder="B-001" />
+        </label>
+        <label>
+          时长秒数
+          <input id="replaceDurationInput" required type="number" min="1" value="12" />
+        </label>
+        <label>
+          颜色偏移
+          <select id="replaceShiftInput">
+            <option value="正常">正常</option>
+            <option value="偏红">偏红</option>
+            <option value="偏青">偏青</option>
+            <option value="偏黄">偏黄</option>
+            <option value="褪色">褪色</option>
+          </select>
+        </label>
+        <label>
+          破损情况
+          <select id="replaceDamageInput">
+            <option value="完好">完好</option>
+            <option value="轻微划痕">轻微划痕</option>
+            <option value="齿孔破损">齿孔破损</option>
+            <option value="接片松动">接片松动</option>
+            <option value="需跳过">需跳过</option>
+          </select>
+        </label>
+        <label>
+          安全上限（场）
+          <input id="replaceLimitInput" required type="number" min="1" value="30" />
+        </label>
+        <label>
+          备注
+          <textarea id="replaceNoteInput" rows="3" placeholder="新洗印件的留意点"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button type="button" data-close-replace>取消</button>
+          <button class="primary" type="submit">确认替换</button>
+        </div>
+      </form>
+    </dialog>
 
     <script src="app.js"></script>
   </body>
