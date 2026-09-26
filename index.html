@@ -23,6 +23,10 @@
             <strong id="damageCount">0</strong>
           </div>
           <div>
+            <span>场次告急片段</span>
+            <strong id="exhaustedCount">0</strong>
+          </div>
+          <div>
             <span>片段数</span>
             <strong id="segmentCount">0</strong>
           </div>
@@ -65,6 +69,10 @@
               <input id="durationInput" required type="number" min="1" value="12" />
             </label>
             <label>
+              安全上限（场）
+              <input id="limitInput" required type="number" min="1" value="20" />
+            </label>
+            <label>
               颜色偏移
               <select id="shiftInput">
                 <option value="正常">正常</option>
@@ -101,7 +109,12 @@
             <h2>放映顺序</h2>
             <span>拖拽片段调整顺序</span>
           </div>
+          <div id="toast" class="toast" hidden></div>
           <div id="segmentList" class="segment-list"></div>
+          <div class="archive-block">
+            <h3>已替换片段 · 历史台账</h3>
+            <div id="archiveList" class="archive-list"></div>
+          </div>
         </section>
 
         <aside class="panel warning-panel">
@@ -110,6 +123,57 @@
         </aside>
       </section>
     </main>
+
+    <div id="replaceModal" class="modal-backdrop" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="replaceTitle">
+        <h2 id="replaceTitle">替换片段</h2>
+        <p class="modal-hint">
+          旧片段尚未放映的 <strong id="replaceCarry">0</strong> 场预订将转到新片段；已完成记录保留在旧片段历史台账中。
+        </p>
+        <form id="replaceForm" class="segment-form">
+          <label>
+            片段编号
+            <input id="replaceCode" required placeholder="A-014" />
+          </label>
+          <label>
+            时长秒数
+            <input id="replaceDuration" required type="number" min="1" />
+          </label>
+          <label>
+            安全上限（场）
+            <input id="replaceLimit" required type="number" min="1" />
+          </label>
+          <label>
+            颜色偏移
+            <select id="replaceShift">
+              <option value="正常">正常</option>
+              <option value="偏红">偏红</option>
+              <option value="偏青">偏青</option>
+              <option value="偏黄">偏黄</option>
+              <option value="褪色">褪色</option>
+            </select>
+          </label>
+          <label>
+            破损情况
+            <select id="replaceDamage">
+              <option value="完好">完好</option>
+              <option value="轻微划痕">轻微划痕</option>
+              <option value="齿孔破损">齿孔破损</option>
+              <option value="接片松动">接片松动</option>
+              <option value="需跳过">需跳过</option>
+            </select>
+          </label>
+          <label>
+            备注
+            <textarea id="replaceNote" rows="3" placeholder="新拷贝的放映注意点"></textarea>
+          </label>
+          <div class="modal-actions">
+            <button type="button" id="replaceCancel">取消</button>
+            <button class="primary" type="submit">确认替换</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="app.js"></script>
   </body>
